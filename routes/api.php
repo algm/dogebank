@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Branches\BranchCreateController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Customers\CustomerCreateController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,4 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'branches'], function () {
     Route::post('/', BranchCreateController::class);
+});
+
+Route::group(['prefix' => 'customers'], function () {
+    Route::post('/', CustomerCreateController::class);
 });

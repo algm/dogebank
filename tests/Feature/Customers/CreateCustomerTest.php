@@ -2,21 +2,37 @@
 
 namespace Tests\Feature\Customers;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Dogebank\Branches\Domain\BranchesRepository;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
+use Illuminate\Support\Str;
+use Mockery\MockInterface;
+use Tests\Branches\Domain\BranchIdMother;
+use Tests\Branches\Domain\BranchMother;
+use Tests\Shared\Infrastructure\ApiTestCase;
 
-class CreateCustomerTest extends TestCase
+class CreateCustomerTest extends ApiTestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_example()
-    {
-        $response = $this->get('/');
+    use WithFaker;
 
-        $response->assertStatus(200);
+    public function testCanCreateValidCustomers()
+    {
+        $branchId = BranchIdMother::create();
+
+        $this->mock(BranchesRepository::class, function (MockInterface $mock) use ($branchId) {
+            $mock->shouldReceive('find')->once()->andReturn(BranchMother::create($branchId));
+        });
+
+        $customerData = [
+            'id' => Str::uuid(),
+            'branchId' => $branchId->getValue(),
+            'name' => $this->faker->name,
+            'balance' => $this->faker->numberBetween(0, 100000),
+        ];
+
+        $this->json('post', '/api/customers', $customerData)
+            ->assertOk()
+            ->assertJson([
+                'data' => $customerData,
+            ]);
     }
 }
