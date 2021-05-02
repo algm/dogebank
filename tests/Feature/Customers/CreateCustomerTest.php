@@ -16,10 +16,12 @@ class CreateCustomerTest extends ApiTestCase
 
     public function testCanCreateValidCustomers()
     {
-        $branchId = BranchIdMother::create();
+        $branch = $this->generateSavedBranch();
+        $branchId = $branch->getId();
 
         $this->mock(BranchesRepository::class, function (MockInterface $mock) use ($branchId) {
-            $mock->shouldReceive('find')->once()->andReturn(BranchMother::create($branchId));
+            $mock->shouldReceive('find')
+                ->andReturn(BranchMother::create($branchId));
         });
 
         $customerData = [

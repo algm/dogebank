@@ -31,7 +31,7 @@ class MysqlCustomersRepository extends BaseMysqlRepository implements CustomerRe
     {
         $raw = $this->db->selectOne(
             "SELECT id, branch_id, name, balance FROM {$this->tableName()} WHERE id = ?",
-            $id->getValue()
+            [$id->getValue()]
         );
 
         if (empty($raw)) {

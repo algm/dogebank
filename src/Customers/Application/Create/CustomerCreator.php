@@ -3,7 +3,6 @@
 
 namespace Dogebank\Customers\Application\Create;
 
-
 use Dogebank\Branches\Domain\BranchesRepository;
 use Dogebank\Branches\Domain\BranchId;
 use Dogebank\Customers\Application\CustomerResponse;
@@ -13,7 +12,7 @@ use Dogebank\Customers\Domain\CustomerId;
 use Dogebank\Customers\Domain\CustomerName;
 use Dogebank\Customers\Domain\CustomerRepository;
 use Dogebank\Shared\Domain\Bus\Event\EventBus;
-use Dogebank\Shared\Domain\ValueObjects\UuidValueObject;
+use InvalidArgumentException;
 
 class CustomerCreator
 {
@@ -37,6 +36,7 @@ class CustomerCreator
             new CustomerBalance($request->getBalance())
         );
 
+        $this->customerRepository->save($customer);
         $this->bus->publish(...$customer->pullEvents());
 
         return CustomerResponse::fromEntity($customer);
@@ -50,7 +50,7 @@ class CustomerCreator
         $foundBranch = $this->branchesRepository->find($branchId);
 
         if (empty($foundBranch)) {
-            throw new \InvalidArgumentException("Branch {$branchId->getValue()} not found");
+            throw new InvalidArgumentException("Branch {$branchId->getValue()} not found");
         }
     }
 }

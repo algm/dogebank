@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Dogebank\Branches\Application\Create;
 
-
 final class BranchCreateRequest
 {
     public function __construct(private string $id, private string $location)

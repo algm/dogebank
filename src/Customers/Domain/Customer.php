@@ -70,4 +70,9 @@ class Customer extends AggregateRoot
     {
         return $this->balance;
     }
+
+    public function balanceIsGreaterThan(float $amount): bool
+    {
+        return $this->getBalance()->getValue() >= $amount;
+    }
 }

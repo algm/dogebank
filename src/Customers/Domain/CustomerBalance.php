@@ -2,14 +2,9 @@
 
 namespace Dogebank\Customers\Domain;
 
-class CustomerBalance
-{
-    public function __construct(private float $value)
-    {
-    }
+use Dogebank\Shared\Domain\CurrencyValueObject;
 
-    public function getValue(): float
-    {
-        return $this->value;
-    }
+final class CustomerBalance extends CurrencyValueObject
+{
+    
 }
