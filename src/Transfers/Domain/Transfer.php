@@ -69,6 +69,12 @@ final class Transfer extends AggregateRoot
     {
         $this->status = new TransferStatus('OK');
 
+        $this->recordThat(new TransferAccepted($this->id->getValue(), [
+            'from' => $this->from->getValue(),
+            'to' => $this->to->getValue(),
+            'amount' => $this->amount->getValue(),
+        ]));
+
         return $this;
     }
 
@@ -76,6 +82,13 @@ final class Transfer extends AggregateRoot
     {
         $this->status = new TransferStatus('REJECTED');
         $this->reason = new TransferReason($reason);
+
+        $this->recordThat(new TransferRejected($this->id->getValue(), [
+            'from' => $this->from->getValue(),
+            'to' => $this->to->getValue(),
+            'amount' => $this->amount->getValue(),
+            'reason' => $this->reason->getValue(),
+        ]));
 
         return $this;
     }

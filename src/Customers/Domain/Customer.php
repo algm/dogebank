@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Dogebank\Customers\Domain;
-
 
 use Dogebank\Branches\Domain\BranchId;
 use Dogebank\Shared\Domain\AggregateRoot;
@@ -39,33 +37,21 @@ class Customer extends AggregateRoot
         return $customer;
     }
 
-    /**
-     * @return CustomerId
-     */
     public function getId(): CustomerId
     {
         return $this->id;
     }
 
-    /**
-     * @return BranchId
-     */
     public function getBranchId(): BranchId
     {
         return $this->branchId;
     }
 
-    /**
-     * @return CustomerName
-     */
     public function getName(): CustomerName
     {
         return $this->name;
     }
 
-    /**
-     * @return CustomerBalance
-     */
     public function getBalance(): CustomerBalance
     {
         return $this->balance;
@@ -74,5 +60,33 @@ class Customer extends AggregateRoot
     public function balanceIsGreaterThan(float $amount): bool
     {
         return $this->getBalance()->getValue() >= $amount;
+    }
+
+    public function decrementBalance(float $amount): void
+    {
+        $this->balance = new CustomerBalance(
+            $this->balance->getValue() - $amount
+        );
+
+        $this->recordThat(new CustomerBalanceDecreased(
+            $this->id->getValue(),
+            [
+               'amount' => $amount,
+            ]
+        ));
+    }
+
+    public function incrementBalance(float $amount): void
+    {
+        $this->balance = new CustomerBalance(
+            $this->balance->getValue() + $amount
+        );
+
+        $this->recordThat(new CustomerBalanceIncreased(
+            $this->id->getValue(),
+            [
+               'amount' => $amount,
+            ]
+        ));
     }
 }

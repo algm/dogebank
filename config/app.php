@@ -175,7 +175,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * Domain service providers
+         */
         Dogebank\Shared\Infrastructure\Laravel\DogeBankServiceProvider::class,
+        Dogebank\Shared\Infrastructure\Laravel\DogeBankEventServiceProvider::class,
     ],
 
     /*

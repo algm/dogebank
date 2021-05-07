@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace Tests\Unit\Transfers\Application\Run;
 
 use Dogebank\Customers\Domain\CustomerRepository;
-use Dogebank\Shared\Domain\Bus\Event\EventBus;
 use Dogebank\Transfers\Application\Run\TransferRunner;
+use Dogebank\Transfers\Domain\TransferAccepted;
+use Dogebank\Transfers\Domain\TransferRegistered;
 use Dogebank\Transfers\Domain\TransferRepository;
 use Mockery\MockInterface;
 use Tests\Customers\Domain\CustomerBalanceMother;
 use Tests\Customers\Domain\CustomerMother;
-use Tests\TestCase;
 use Tests\Transfers\Application\TransferRunRequestMother;
+use Tests\UseCaseTestCase;
 
-final class TransferRunnerTest extends TestCase
+final class TransferRunnerTest extends UseCaseTestCase
 {
     public function testTransfersCanBeRunWhenOriginCustomerHasEnoughBalance()
     {
-        $bus = $this->getEventBusSpy();
         $repo = $this->getTransferRepoSpy();
         $from = CustomerMother::create(balance: CustomerBalanceMother::create(1000));
         $to = CustomerMother::create();
@@ -34,10 +34,11 @@ final class TransferRunnerTest extends TestCase
             amount: 10
         );
 
+        $this->shouldPublishEvents(TransferRegistered::class, TransferAccepted::class);
+
         $response = $this->getService()->__invoke($request);
 
         $repo->shouldHaveReceived('save');
-        $bus->shouldHaveReceived('publish');
 
         $status = $response->getStatus();
 
@@ -46,7 +47,6 @@ final class TransferRunnerTest extends TestCase
 
     public function testTransfersAreRejectedWhenOriginCustomerDoesNotHaveEnoughBalance()
     {
-        $bus = $this->getEventBusSpy();
         $repo = $this->getTransferRepoSpy();
         $from = CustomerMother::create(balance: CustomerBalanceMother::create(10));
         $to = CustomerMother::create();
@@ -65,7 +65,6 @@ final class TransferRunnerTest extends TestCase
         $response = $this->getService()->__invoke($request);
 
         $repo->shouldHaveReceived('save');
-        $bus->shouldHaveReceived('publish');
 
         $status = $response->getStatus();
         $reason = $response->getReason();
@@ -77,11 +76,6 @@ final class TransferRunnerTest extends TestCase
     private function getService(): TransferRunner
     {
         return $this->app->get(TransferRunner::class);
-    }
-
-    private function getEventBusSpy(): MockInterface | EventBus
-    {
-        return $this->spy(EventBus::class);
     }
 
     private function getTransferRepoSpy(): MockInterface | TransferRepository

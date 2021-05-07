@@ -45,4 +45,17 @@ class MysqlCustomersRepository extends BaseMysqlRepository implements CustomerRe
             new CustomerBalance($raw->balance)
         );
     }
+
+    public function update(Customer $customer): void
+    {
+        $this->db->insert(
+            "UPDATE {$this->tableName()} SET branch_id = ?, name = ?, balance = ? WHERE id = ?",
+            [
+                $customer->getBranchId()->getValue(),
+                $customer->getName()->getValue(),
+                $customer->getBalance()->getValue(),
+                $customer->getId()->getValue(),
+            ]
+        );
+    }
 }
