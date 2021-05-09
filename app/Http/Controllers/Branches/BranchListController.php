@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Branches;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ResponseDTOResource;
 use Dogebank\Branches\Application\Create\BranchResponse;
-use Dogebank\Branches\Application\Report\Reporter\BranchReporter;
+use Dogebank\Branches\Application\Report\BranchReporter;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 final class BranchListController extends Controller

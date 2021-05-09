@@ -2,8 +2,7 @@
 declare(strict_types=1);
 
 
-namespace Dogebank\Branches\Application\Report\Reporter;
-
+namespace Dogebank\Branches\Application\Report;
 
 use Dogebank\Branches\Application\Create\BranchResponse;
 use Dogebank\Branches\Domain\Branch;
