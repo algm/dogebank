@@ -58,6 +58,20 @@ final class MysqlBranchesRepository extends BaseMysqlRepository implements Branc
         return $collection->merge($raw)->map(fn ($item) => $this->resultToEntity($item));
     }
 
+    public function getTopBranches(): BranchCollection
+    {
+        /** @var stdClass[] $raw */
+        $raw = $this->db->cursor(
+            "SELECT id, location, max_balance FROM {$this->tableName()}
+             WHERE id IN (SELECT branch_id FROM customers WHERE balance > 50000 GROUP BY branch_id HAVING COUNT(id) > 2)
+             ORDER BY max_balance DESC",
+        );
+
+        $collection = $this->container->get(BranchCollection::class);
+
+        return $collection->merge($raw)->map(fn ($item) => $this->resultToEntity($item));
+    }
+
     /**
      * @param mixed $raw
      */

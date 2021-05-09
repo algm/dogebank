@@ -10,4 +10,6 @@ interface BranchesRepository
     public function find(BranchId $id): ?Branch;
 
     public function all(): BranchCollection;
+
+    public function getTopBranches(): BranchCollection;
 }
