@@ -8,12 +8,12 @@ use Dogebank\Shared\Domain\Bus\Event\EventBus;
 use Tests\Customers\Domain\TransferAcceptedMother;
 use Tests\Shared\Infrastructure\ApiTestCase;
 
-final class UpdateCustomerBalanceWhenTransferAccepted extends ApiTestCase
+final class UpdateCustomerBalanceWhenTransferAcceptedTest extends ApiTestCase
 {
     public function testCustomerBalanceGetsUpdatedWhenTransfersAreAccepted()
     {
         $customer1 = $this->generateSavedCustomerWithBalance(1000);
-        $customer2 = $this->generateSavedCustomerWithBalance(0);
+        $customer2 = $this->generateSavedCustomerWithBalance();
 
         $bus = $this->app->get(EventBus::class);
         $transferAcceptedEvent = TransferAcceptedMother::create(

@@ -71,7 +71,8 @@ class Customer extends AggregateRoot
         $this->recordThat(new CustomerBalanceDecreased(
             $this->id->getValue(),
             [
-               'amount' => $amount,
+                'amount' => $amount,
+                'branchId' => $this->branchId->getValue(),
             ]
         ));
     }
@@ -85,7 +86,8 @@ class Customer extends AggregateRoot
         $this->recordThat(new CustomerBalanceIncreased(
             $this->id->getValue(),
             [
-               'amount' => $amount,
+                'amount' => $amount,
+                'branchId' => $this->branchId->getValue(),
             ]
         ));
     }

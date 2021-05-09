@@ -58,4 +58,16 @@ class MysqlCustomersRepository extends BaseMysqlRepository implements CustomerRe
             ]
         );
     }
+
+    public function calculateMaxBalanceForBranch(BranchId $branchId): float
+    {
+        $raw = $this->db->selectOne(
+            "SELECT MAX(balance) as max_balance FROM {$this->tableName()} WHERE branch_id = ? GROUP BY branch_id",
+            [
+                $branchId->getValue(),
+            ]
+        );
+
+        return $raw->max_balance ?? 0;
+    }
 }

@@ -7,9 +7,8 @@ namespace Dogebank\Customers\Domain;
 use Dogebank\Shared\Domain\Bus\Event\BaseDomainEvent;
 use Dogebank\Shared\Domain\DomainEvent;
 
-final class CustomerBalanceIncreased extends BaseDomainEvent implements DomainEvent
+final class CustomerBalanceIncreased extends BaseDomainEvent implements DomainEvent, CustomerBalanceUpdatedEvent
 {
-
     public function __construct(
         string $aggregateId,
         private array $body,

@@ -22,6 +22,7 @@ class CreateCustomerTest extends ApiTestCase
         $this->mock(BranchesRepository::class, function (MockInterface $mock) use ($branchId) {
             $mock->shouldReceive('find')
                 ->andReturn(BranchMother::create($branchId));
+            $mock->shouldReceive('save');
         });
 
         $customerData = [

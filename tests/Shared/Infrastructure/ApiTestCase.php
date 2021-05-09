@@ -6,9 +6,12 @@ namespace Tests\Shared\Infrastructure;
 
 use Dogebank\Branches\Domain\Branch;
 use Dogebank\Branches\Domain\BranchesRepository;
+use Dogebank\Branches\Domain\BranchId;
 use Dogebank\Customers\Domain\Customer;
 use Dogebank\Customers\Domain\CustomerRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Collection;
+use Tests\Branches\Domain\BranchMaxBalanceMother;
 use Tests\Branches\Domain\BranchMother;
 use Tests\Customers\Domain\CustomerBalanceMother;
 use Tests\Customers\Domain\CustomerMother;
@@ -27,19 +30,31 @@ abstract class ApiTestCase extends TestCase
 
     protected function generateSavedBranch(): Branch
     {
-        $branch = BranchMother::create();
+        $branch = BranchMother::create(maxBalance: BranchMaxBalanceMother::create(0));
 
         $this->getBranchRepository()->save($branch);
 
         return $branch;
     }
 
-    protected function generateSavedCustomerWithBalance(float $balance = 0): Customer
+    protected function generateSavedBranches(int $howMany = 5): Collection
     {
-        $branch = $this->generateSavedBranch();
-        $branchId = $branch->getId();
+        return Collection::make(range(1, $howMany))->map(fn () => $this->generateSavedBranch());
+    }
 
-        $customer = CustomerMother::create(branchId: $branchId, balance: CustomerBalanceMother::create($balance));
+    protected function generateSavedCustomerWithBalance(float $balance = 0, ?string $branchId = null): Customer
+    {
+        if (empty($branchId)) {
+            $branch = $this->generateSavedBranch();
+            $branchId = $branch->getId()->getValue();
+        }
+
+        $branchIdInstance = new BranchId($branchId);
+
+        $customer = CustomerMother::create(
+            branchId: $branchIdInstance,
+            balance: CustomerBalanceMother::create($balance)
+        );
 
         $this->getCustomerRepository()->save($customer);
 

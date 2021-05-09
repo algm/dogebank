@@ -2,21 +2,25 @@
 
 namespace Tests\Feature\Branches;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
+use Tests\Shared\Infrastructure\ApiTestCase;
 
-class ListBranchesTest extends TestCase
+class ListBranchesTest extends ApiTestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_example()
+    public function testListsAllBranchesWithTheirMaximumBalance()
     {
-        $response = $this->get('/');
+        $this->generateSavedBranches(10);
 
-        $response->assertStatus(200);
+        $this->json('get', '/api/branches')
+            ->assertOk()
+            ->assertJsonCount(10, 'data')
+            ->assertJsonStructure([
+                'data' => [
+                    '*' => [
+                        'id',
+                        'location',
+                        'maxBalance',
+                    ],
+                ],
+            ]);
     }
 }
