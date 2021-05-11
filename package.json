@@ -10,9 +10,22 @@
         "production": "mix --production"
     },
     "devDependencies": {
-        "axios": "^0.21",
+        "@babel/preset-react": "^7.13.13",
+        "autoprefixer": "^10.2.5",
+        "eslint": "^7.26.0",
+        "eslint-plugin-react": "^7.23.2",
         "laravel-mix": "^6.0.6",
+        "postcss": "^8.2.14",
+        "prettier": "^2.3.0",
+        "tailwindcss": "^2.1.2"
+    },
+    "dependencies": {
+        "axios": "^0.21",
         "lodash": "^4.17.19",
-        "postcss": "^8.1.14"
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-fetching-library": "^1.7.6",
+        "uniqid": "^5.3.0",
+        "uuid": "^3.4.0"
     }
 }
