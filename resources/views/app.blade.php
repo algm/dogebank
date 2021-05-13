@@ -8,7 +8,9 @@
     <title>Dogebank</title>
 </head>
 <body class="antialiased">
-    <div id="app" class="h-screen w-full bg-gray-800 flex flex-col items-stretch justify-items-stretch"></div>
+    <div id="app" class="h-screen w-full bg-gray-800 flex flex-col items-stretch justify-items-stretch overflow-y-auto relative">
+        loading...
+    </div>
 
 <script src="{{mix('js/app.js')}}"></script>
 </body>

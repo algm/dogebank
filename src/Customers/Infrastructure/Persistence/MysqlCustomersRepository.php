@@ -2,13 +2,16 @@
 
 namespace Dogebank\Customers\Infrastructure\Persistence;
 
+use Dogebank\Branches\Domain\BranchCollection;
 use Dogebank\Branches\Domain\BranchId;
 use Dogebank\Customers\Domain\Customer;
 use Dogebank\Customers\Domain\CustomerBalance;
+use Dogebank\Customers\Domain\CustomerCollection;
 use Dogebank\Customers\Domain\CustomerId;
 use Dogebank\Customers\Domain\CustomerName;
 use Dogebank\Customers\Domain\CustomerRepository;
 use Dogebank\Shared\Infrastructure\Laravel\Persistence\BaseMysqlRepository;
+use stdClass;
 
 class MysqlCustomersRepository extends BaseMysqlRepository implements CustomerRepository
 {
@@ -38,12 +41,7 @@ class MysqlCustomersRepository extends BaseMysqlRepository implements CustomerRe
             return null;
         }
 
-        return new Customer(
-            new CustomerId($raw->id),
-            new BranchId($raw->branch_id),
-            new CustomerName($raw->name),
-            new CustomerBalance($raw->balance)
-        );
+        return $this->resultToEntity($raw);
     }
 
     public function update(Customer $customer): void
@@ -69,5 +67,31 @@ class MysqlCustomersRepository extends BaseMysqlRepository implements CustomerRe
         );
 
         return $raw->max_balance ?? 0;
+    }
+
+    public function all(): CustomerCollection
+    {
+        /** @var stdClass[] $raw */
+        $raw = $this->db->cursor(
+            "SELECT id, name, branch_id, balance FROM {$this->tableName()} ORDER BY balance DESC",
+        );
+
+        $collection = $this->container->get(CustomerCollection::class);
+
+        return $collection->merge($raw)->map(fn ($item) => $this->resultToEntity($item));
+    }
+
+    /**
+     * @param mixed $raw
+     * @return Customer
+     */
+    private function resultToEntity(mixed $raw): Customer
+    {
+        return new Customer(
+            new CustomerId($raw->id),
+            new BranchId($raw->branch_id),
+            new CustomerName($raw->name),
+            new CustomerBalance($raw->balance)
+        );
     }
 }

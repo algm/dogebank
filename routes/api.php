@@ -4,6 +4,7 @@ use App\Http\Controllers\Branches\BranchCreateController;
 use App\Http\Controllers\Branches\BranchListController;
 use App\Http\Controllers\Branches\BranchTopListController;
 use App\Http\Controllers\Customers\CustomerCreateController;
+use App\Http\Controllers\Customers\CustomerListController;
 use App\Http\Controllers\Transfers\Run\RunTransferController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,7 @@ Route::group(['prefix' => 'branches'], function () {
 });
 
 Route::group(['prefix' => 'customers'], function () {
+    Route::get('/', CustomerListController::class);
     Route::post('/', CustomerCreateController::class);
 });
 

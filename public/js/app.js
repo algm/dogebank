@@ -1845,6 +1845,74 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/api/client.js":
+/*!************************************!*\
+  !*** ./resources/js/api/client.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_fetching_library__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-fetching-library */ "./node_modules/react-fetching-library/lib/index.js");
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+var responseInterceptor = function responseInterceptor() {
+  return /*#__PURE__*/function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(action, response) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              if (!response.payload.data) {
+                _context.next = 2;
+                break;
+              }
+
+              return _context.abrupt("return", _objectSpread(_objectSpread({}, response), {}, {
+                payload: response.payload.data
+              }));
+
+            case 2:
+              return _context.abrupt("return", response);
+
+            case 3:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
+
+    return function (_x, _x2) {
+      return _ref.apply(this, arguments);
+    };
+  }();
+};
+
+var Client = (0,react_fetching_library__WEBPACK_IMPORTED_MODULE_1__.createClient)({
+  responseInterceptors: [responseInterceptor]
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Client);
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -1895,6 +1963,53 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
+/***/ "./resources/js/components/ApiContext.js":
+/*!***********************************************!*\
+  !*** ./resources/js/components/ApiContext.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ApiContextProvider": () => (/* binding */ ApiContextProvider),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_fetching_library__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-fetching-library */ "./node_modules/react-fetching-library/lib/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+var ApiContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)({});
+var fetchBranchesList = {
+  method: "GET",
+  endpoint: "/api/branches"
+};
+var topBranchesList = {
+  method: "GET",
+  endpoint: "/api/branches/top"
+};
+var fetchCustomersList = {
+  method: "GET",
+  endpoint: "/api/customers"
+};
+function ApiContextProvider(_ref) {
+  var children = _ref.children;
+  var contextValue = {
+    branches: (0,react_fetching_library__WEBPACK_IMPORTED_MODULE_1__.useQuery)(fetchBranchesList),
+    topBranches: (0,react_fetching_library__WEBPACK_IMPORTED_MODULE_1__.useQuery)(topBranchesList),
+    customers: (0,react_fetching_library__WEBPACK_IMPORTED_MODULE_1__.useQuery)(fetchCustomersList)
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(ApiContext.Provider, {
+    value: contextValue,
+    children: children
+  });
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ApiContext);
+
+/***/ }),
+
 /***/ "./resources/js/components/App.js":
 /*!****************************************!*\
   !*** ./resources/js/components/App.js ***!
@@ -1906,24 +2021,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ App)
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _Branches_BranchesList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Branches/BranchesList */ "./resources/js/components/Branches/BranchesList.js");
-/* harmony import */ var react_fetching_library__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-fetching-library */ "./node_modules/react-fetching-library/lib/index.js");
-/* harmony import */ var _images_dogecoin_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../images/dogecoin.png */ "./resources/images/dogecoin.png");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Branches_BranchesList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Branches/BranchesList */ "./resources/js/components/Branches/BranchesList.js");
+/* harmony import */ var react_fetching_library__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-fetching-library */ "./node_modules/react-fetching-library/lib/index.js");
+/* harmony import */ var _images_dogecoin_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../images/dogecoin.png */ "./resources/images/dogecoin.png");
+/* harmony import */ var _Customers_CustomersList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Customers/CustomersList */ "./resources/js/components/Customers/CustomersList.js");
+/* harmony import */ var _api_client__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../api/client */ "./resources/js/api/client.js");
+/* harmony import */ var _ApiContext__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ApiContext */ "./resources/js/components/ApiContext.js");
+/* harmony import */ var _Transfers_TransfersList__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Transfers/TransfersList */ "./resources/js/components/Transfers/TransfersList.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
@@ -1932,61 +2038,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
-var responseInterceptor = function responseInterceptor() {
-  return /*#__PURE__*/function () {
-    var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(action, response) {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              if (!response.payload.data) {
-                _context.next = 2;
-                break;
-              }
 
-              return _context.abrupt("return", _objectSpread(_objectSpread({}, response), {}, {
-                payload: response.payload.data
-              }));
 
-            case 2:
-              return _context.abrupt("return", response);
-
-            case 3:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee);
-    }));
-
-    return function (_x, _x2) {
-      return _ref.apply(this, arguments);
-    };
-  }();
-};
-
-var Client = (0,react_fetching_library__WEBPACK_IMPORTED_MODULE_3__.createClient)({
-  responseInterceptors: [responseInterceptor]
-});
 function App() {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_fetching_library__WEBPACK_IMPORTED_MODULE_3__.ClientContextProvider, {
-    client: Client,
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-      className: "bg-purple-900 flex flex-row items-center space-x-3 px-3 py-2",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
-          src: _images_dogecoin_png__WEBPACK_IMPORTED_MODULE_4__.default,
-          className: "w-[55px] h-[55px]",
-          alt: "dogecoin"
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h1", {
-        className: "text-xl font-bold text-white",
-        children: "DOGEBANK"
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_fetching_library__WEBPACK_IMPORTED_MODULE_2__.ClientContextProvider, {
+    client: _api_client__WEBPACK_IMPORTED_MODULE_5__.default,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_ApiContext__WEBPACK_IMPORTED_MODULE_6__.ApiContextProvider, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+        className: "bg-purple-900 flex flex-row items-center space-x-3 px-3 py-2 sticky top-0",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("img", {
+            src: _images_dogecoin_png__WEBPACK_IMPORTED_MODULE_3__.default,
+            className: "w-[55px] h-[55px]",
+            alt: "dogecoin"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h1", {
+          className: "text-xl font-bold text-white",
+          children: "DOGEBANK"
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+        className: "text-white flex flex-row items-stretch flex-grow",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Branches_BranchesList__WEBPACK_IMPORTED_MODULE_1__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Customers_CustomersList__WEBPACK_IMPORTED_MODULE_4__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Transfers_TransfersList__WEBPACK_IMPORTED_MODULE_7__.default, {})]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-      className: "text-white flex flex-row items-stretch flex-grow",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Branches_BranchesList__WEBPACK_IMPORTED_MODULE_2__.default, {})
-    })]
+    })
   });
 }
 
@@ -2004,18 +2078,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ BranchItem)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _Currency__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Currency */ "./resources/js/components/Currency.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
 
 
 function BranchItem(_ref) {
   var branch = _ref.branch;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
     className: "bg-gray-700 p-3 rounded-md",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h3", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("h3", {
       className: "font-medium",
       children: [branch.location, " Branch"]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
-      children: ["Top \xD0 ", branch.maxBalance]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      children: ["Top ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Currency__WEBPACK_IMPORTED_MODULE_1__.default, {
+        number: branch.maxBalance
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      className: "mt-3 text-gray-300 text-sm",
+      children: ["id: ", branch.id]
     })]
   });
 }
@@ -2034,9 +2116,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ BranchesList)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_fetching_library__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-fetching-library */ "./node_modules/react-fetching-library/lib/index.js");
-/* harmony import */ var _CreateForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CreateForm */ "./resources/js/components/Branches/CreateForm.js");
-/* harmony import */ var _BranchItem__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./BranchItem */ "./resources/js/components/Branches/BranchItem.js");
+/* harmony import */ var _CreateForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CreateForm */ "./resources/js/components/Branches/CreateForm.js");
+/* harmony import */ var _BranchItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BranchItem */ "./resources/js/components/Branches/BranchItem.js");
+/* harmony import */ var _ApiContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ApiContext */ "./resources/js/components/ApiContext.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
@@ -2044,41 +2126,61 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var fetchBranchesList = {
-  method: "GET",
-  endpoint: "/api/branches"
-};
 function BranchesList() {
-  var _useQuery = (0,react_fetching_library__WEBPACK_IMPORTED_MODULE_1__.useQuery)(fetchBranchesList),
-      loading = _useQuery.loading,
-      branches = _useQuery.payload,
-      error = _useQuery.error,
-      query = _useQuery.query;
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_ApiContext__WEBPACK_IMPORTED_MODULE_3__.default),
+      _useContext$branches = _useContext.branches,
+      loading = _useContext$branches.loading,
+      branches = _useContext$branches.payload,
+      error = _useContext$branches.error,
+      query = _useContext$branches.query;
 
-  if (loading) {
+  var _useContext2 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_ApiContext__WEBPACK_IMPORTED_MODULE_3__.default),
+      _useContext2$topBranc = _useContext2.topBranches,
+      topLoading = _useContext2$topBranc.loading,
+      topBranches = _useContext2$topBranc.payload,
+      topError = _useContext2$topBranc.error;
+
+  if (loading || topLoading) {
     return "loading...";
   }
 
-  if (error) {
+  if (error || topError) {
     return "fetch error";
   }
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-    className: "space-y-3 p-3",
+    className: "space-y-3 p-3 flex flex-col",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
       className: "text-2xl font-semibold",
       children: "Branches"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_CreateForm__WEBPACK_IMPORTED_MODULE_2__.default, {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_CreateForm__WEBPACK_IMPORTED_MODULE_1__.default, {
       onCreated: function onCreated() {
         return query();
       }
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-      className: "pt-3 space-y-2",
-      children: branches.map(function (branch) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_BranchItem__WEBPACK_IMPORTED_MODULE_3__.default, {
-          branch: branch
-        }, branch.id);
-      })
+    }), topBranches.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h2", {
+        className: "text-xl font-semibold",
+        children: "Top branches"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        className: "pt-3 space-y-2 flex-grow overflow-y-auto",
+        children: topBranches.map(function (branch) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_BranchItem__WEBPACK_IMPORTED_MODULE_2__.default, {
+            branch: branch
+          }, branch.id);
+        })
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h2", {
+        className: "text-xl font-semibold",
+        children: "All branches"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        className: "pt-3 space-y-2 flex-grow overflow-y-auto",
+        children: branches.map(function (branch) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_BranchItem__WEBPACK_IMPORTED_MODULE_2__.default, {
+            branch: branch
+          }, branch.id);
+        })
+      })]
     })]
   });
 }
@@ -2221,6 +2323,299 @@ function CreateForm(_ref) {
 
 /***/ }),
 
+/***/ "./resources/js/components/Currency.js":
+/*!*********************************************!*\
+  !*** ./resources/js/components/Currency.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Currency)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+function Currency(_ref) {
+  var number = _ref.number;
+  var formattedNumber = new Intl.NumberFormat("es-ES", {
+    style: "currency",
+    currency: "EUR"
+  }).format(number).replace("€", "");
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
+    children: ["\xD0 ", formattedNumber]
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/js/components/Customers/CreateForm.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/Customers/CreateForm.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ CreateForm)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Form_TextInput__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Form/TextInput */ "./resources/js/components/Form/TextInput.js");
+/* harmony import */ var _Form_SubmitButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Form/SubmitButton */ "./resources/js/components/Form/SubmitButton.js");
+/* harmony import */ var react_fetching_library__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-fetching-library */ "./node_modules/react-fetching-library/lib/index.js");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/index.js");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(uuid__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+
+
+
+var createCustomer = function createCustomer(formValues) {
+  return {
+    method: "POST",
+    endpoint: "/api/customers",
+    body: _objectSpread(_objectSpread({}, formValues), {}, {
+      id: (0,uuid__WEBPACK_IMPORTED_MODULE_5__.v4)()
+    })
+  };
+};
+
+function CreateForm(_ref) {
+  var onCreated = _ref.onCreated;
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
+      _useState2 = _slicedToArray(_useState, 2),
+      name = _useState2[0],
+      setName = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
+      _useState4 = _slicedToArray(_useState3, 2),
+      branchId = _useState4[0],
+      setBranchId = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(0),
+      _useState6 = _slicedToArray(_useState5, 2),
+      balance = _useState6[0],
+      setBalance = _useState6[1];
+
+  var _useMutation = (0,react_fetching_library__WEBPACK_IMPORTED_MODULE_4__.useMutation)(createCustomer),
+      loading = _useMutation.loading,
+      mutate = _useMutation.mutate,
+      mutateError = _useMutation.error;
+
+  var handleSubmit = /*#__PURE__*/function () {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(e) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              e.preventDefault();
+              _context.next = 3;
+              return mutate({
+                name: name,
+                branchId: branchId,
+                balance: balance
+              });
+
+            case 3:
+              if (onCreated) {
+                onCreated();
+              }
+
+            case 4:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
+
+    return function handleSubmit(_x) {
+      return _ref2.apply(this, arguments);
+    };
+  }();
+
+  if (loading) {
+    return "loading...";
+  }
+
+  if (mutateError) {
+    return "Creation failed with error";
+  }
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+    className: "space-y-3",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
+      className: "font-semibold",
+      children: "Create branch"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("form", {
+      onSubmit: handleSubmit,
+      className: "space-y-3",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Form_TextInput__WEBPACK_IMPORTED_MODULE_2__.default, {
+        value: name,
+        onChange: function onChange(e) {
+          return setName(e.target.value);
+        },
+        label: "Name"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Form_TextInput__WEBPACK_IMPORTED_MODULE_2__.default, {
+        value: branchId,
+        onChange: function onChange(e) {
+          return setBranchId(e.target.value);
+        },
+        label: "Branch ID"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Form_TextInput__WEBPACK_IMPORTED_MODULE_2__.default, {
+        value: balance,
+        onChange: function onChange(e) {
+          return setBalance(e.target.value);
+        },
+        label: "Initial Balance"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Form_SubmitButton__WEBPACK_IMPORTED_MODULE_3__.default, {
+        children: "Create Customer"
+      })]
+    })]
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/js/components/Customers/CustomerItem.js":
+/*!***********************************************************!*\
+  !*** ./resources/js/components/Customers/CustomerItem.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ CustomerItem)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Currency__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Currency */ "./resources/js/components/Currency.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+function CustomerItem(_ref) {
+  var customer = _ref.customer;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    className: "bg-gray-700 p-3 rounded-md",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h3", {
+      className: "font-medium",
+      children: customer.name
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Currency__WEBPACK_IMPORTED_MODULE_1__.default, {
+        number: customer.balance
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      className: "mt-3 text-gray-300 text-sm",
+      children: ["Branch ID: ", customer.branchId]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      className: "mt-3 text-gray-300 text-sm",
+      children: ["id: ", customer.id]
+    })]
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/js/components/Customers/CustomersList.js":
+/*!************************************************************!*\
+  !*** ./resources/js/components/Customers/CustomersList.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ CustomersList)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _CreateForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CreateForm */ "./resources/js/components/Customers/CreateForm.js");
+/* harmony import */ var _CustomerItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CustomerItem */ "./resources/js/components/Customers/CustomerItem.js");
+/* harmony import */ var _ApiContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ApiContext */ "./resources/js/components/ApiContext.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+
+function CustomersList() {
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_ApiContext__WEBPACK_IMPORTED_MODULE_3__.default),
+      _useContext$customers = _useContext.customers,
+      loading = _useContext$customers.loading,
+      customers = _useContext$customers.payload,
+      error = _useContext$customers.error,
+      query = _useContext$customers.query,
+      updateBranches = _useContext.branches.query,
+      updateTopBranches = _useContext.topBranches.query;
+
+  if (loading) {
+    return "loading...";
+  }
+
+  if (error) {
+    return "fetch error";
+  }
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+    className: "space-y-3 p-3 flex flex-col",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
+      className: "text-2xl font-semibold",
+      children: "Customers"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_CreateForm__WEBPACK_IMPORTED_MODULE_1__.default, {
+      onCreated: function onCreated() {
+        query();
+        updateBranches();
+        updateTopBranches();
+      }
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      className: "pt-3 space-y-2 flex-grow overflow-y-auto",
+      children: customers.map(function (customer) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_CustomerItem__WEBPACK_IMPORTED_MODULE_2__.default, {
+          customer: customer
+        }, customer.id);
+      })
+    })]
+  });
+}
+
+/***/ }),
+
 /***/ "./resources/js/components/Form/SubmitButton.js":
 /*!******************************************************!*\
   !*** ./resources/js/components/Form/SubmitButton.js ***!
@@ -2289,13 +2684,216 @@ function TextInput(_ref) {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
       className: "block",
       htmlFor: inputId,
-      children: "Location"
+      children: label
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
       className: "bg-gray-600 text-gray-200 py-1 px-3 rounded-sm",
       id: inputId,
       type: "text",
       value: value,
       onChange: onChange
+    })]
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/js/components/Transfers/CreateForm.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/Transfers/CreateForm.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ CreateForm)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Form_TextInput__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Form/TextInput */ "./resources/js/components/Form/TextInput.js");
+/* harmony import */ var _Form_SubmitButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Form/SubmitButton */ "./resources/js/components/Form/SubmitButton.js");
+/* harmony import */ var react_fetching_library__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-fetching-library */ "./node_modules/react-fetching-library/lib/index.js");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/index.js");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(uuid__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+
+
+
+var createTransfer = function createTransfer(formValues) {
+  return {
+    method: "POST",
+    endpoint: "/api/transfers",
+    body: _objectSpread(_objectSpread({}, formValues), {}, {
+      id: (0,uuid__WEBPACK_IMPORTED_MODULE_5__.v4)()
+    })
+  };
+};
+
+function CreateForm(_ref) {
+  var onCreated = _ref.onCreated;
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
+      _useState2 = _slicedToArray(_useState, 2),
+      from = _useState2[0],
+      setFrom = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
+      _useState4 = _slicedToArray(_useState3, 2),
+      to = _useState4[0],
+      setTo = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(0),
+      _useState6 = _slicedToArray(_useState5, 2),
+      amount = _useState6[0],
+      setAmount = _useState6[1];
+
+  var _useMutation = (0,react_fetching_library__WEBPACK_IMPORTED_MODULE_4__.useMutation)(createTransfer),
+      loading = _useMutation.loading,
+      mutate = _useMutation.mutate,
+      mutateError = _useMutation.error;
+
+  var handleSubmit = /*#__PURE__*/function () {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(e) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              e.preventDefault();
+              _context.next = 3;
+              return mutate({
+                from: from,
+                to: to,
+                amount: parseFloat(amount)
+              });
+
+            case 3:
+              if (onCreated) {
+                onCreated();
+              }
+
+            case 4:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
+
+    return function handleSubmit(_x) {
+      return _ref2.apply(this, arguments);
+    };
+  }();
+
+  if (loading) {
+    return "loading...";
+  }
+
+  if (mutateError) {
+    return "Creation failed with error";
+  }
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+    className: "space-y-3",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
+      className: "font-semibold",
+      children: "Create branch"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("form", {
+      onSubmit: handleSubmit,
+      className: "space-y-3",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Form_TextInput__WEBPACK_IMPORTED_MODULE_2__.default, {
+        value: from,
+        onChange: function onChange(e) {
+          return setFrom(e.target.value);
+        },
+        label: "From"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Form_TextInput__WEBPACK_IMPORTED_MODULE_2__.default, {
+        value: to,
+        onChange: function onChange(e) {
+          return setTo(e.target.value);
+        },
+        label: "To"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Form_TextInput__WEBPACK_IMPORTED_MODULE_2__.default, {
+        value: amount,
+        onChange: function onChange(e) {
+          return setAmount(e.target.value);
+        },
+        label: "Amount"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Form_SubmitButton__WEBPACK_IMPORTED_MODULE_3__.default, {
+        children: "Create Transfer"
+      })]
+    })]
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/js/components/Transfers/TransfersList.js":
+/*!************************************************************!*\
+  !*** ./resources/js/components/Transfers/TransfersList.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ TransfersList)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _CreateForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CreateForm */ "./resources/js/components/Transfers/CreateForm.js");
+/* harmony import */ var _ApiContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ApiContext */ "./resources/js/components/ApiContext.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+function TransfersList() {
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_ApiContext__WEBPACK_IMPORTED_MODULE_2__.default),
+      query = _useContext.customers.query,
+      updateBranches = _useContext.branches.query,
+      updateTopBranches = _useContext.topBranches.query;
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+    className: "space-y-3 p-3 flex flex-col",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h1", {
+      className: "text-2xl font-semibold",
+      children: "Transfer"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_CreateForm__WEBPACK_IMPORTED_MODULE_1__.default, {
+      onCreated: function onCreated() {
+        query();
+        updateBranches();
+        updateTopBranches();
+      }
     })]
   });
 }

@@ -14,4 +14,6 @@ interface CustomerRepository
     public function update(Customer $customer): void;
 
     public function calculateMaxBalanceForBranch(BranchId $branchId): float;
+
+    public function all(): CustomerCollection;
 }
