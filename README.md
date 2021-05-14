@@ -47,7 +47,13 @@ WARNING: This will remove current database data
 **Build frontend**
 
 ```
-./vendor/bin/sail artisan migrate
+./vendor/bin/sail npm run dev
+```
+
+or
+
+```
+./vendor/bin/sail npm run prod
 ```
 
 After setting up and starting the containers, the site will be accessible at http://localhost (port 80)
